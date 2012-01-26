@@ -1,0 +1,48 @@
+require 'active_support'
+
+class AtomicMemCacheStore < ActiveSupport::Cache::MemCacheStore
+  NEWLY_STORED = "STORED\r\n"
+
+  class << self; attr_accessor :grace_period; end
+  @grace_period = 90
+    
+  def read(key, options = nil)
+    result = super
+    
+    if result.present?
+      timer_key = timer_key(key)
+      #check whether the cache is expired
+      if @data.get(timer_key, true).nil?
+        #optimistic lock to avoid concurrent recalculation
+        if @data.add(timer_key, '', self.class.grace_period, true) == NEWLY_STORED
+          #trigger cache recalculation
+          return handle_expired_read(key,result)
+        end
+        #already recalculated or expirated in another process/thread
+      end
+      #key not expired
+    end
+    result
+  end
+
+  def write(key, value, options = nil)
+    expiry = (options && options[:expires_in]) || 0
+    #extend write expiration period and reset expiration timer
+    options[:expires_in] = expiry + 2*self.class.grace_period unless expiry.zero?
+    @data.set(timer_key(key), '', expiry, true)
+    super
+  end
+
+  protected
+  
+  #to be overidden for something else than synchronous cache recalculation
+  def handle_expired_read(key,result)
+    nil
+  end
+
+  private
+  
+  def timer_key(key)
+    "tk:#{key}"
+  end
+end
