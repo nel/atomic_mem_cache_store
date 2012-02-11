@@ -53,6 +53,11 @@ It supports the same parameters as [ActiveSupport::Cache::MemCacheStore](http://
 
 - If you try to access key value directly be careful as you will bypass the atomicity mechanism. (this will work though even if the expiration of the key will be longer than expected).
 
+- Current implementation will double number of memcache read AND write (to read
+  the lock). It could be reduced but at the expense of changing the nature of
+  key (make it array or prefix it) thus making it uncompatible with direct access, multiget and adding
+  complexe type support overhead.
+
 ## TL;DR
 
 Basically unless you are doing weird stuff without your cache store, this should be a drop-in replacement with no real corner cases. Worse that can happen is more query to memcache, and slightly longer expiry on keys.

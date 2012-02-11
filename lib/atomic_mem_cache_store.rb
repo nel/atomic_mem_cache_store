@@ -1,6 +1,7 @@
 require 'active_support'
 
 class AtomicMemCacheStore < ActiveSupport::Cache::MemCacheStore
+  VERSION = File.read(File.join(File.dirname(__FILE__),'..','VERSION') ).strip
   NEWLY_STORED = "STORED\r\n"
 
   class << self; attr_accessor :grace_period; end

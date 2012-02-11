@@ -1,10 +1,8 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "atomic_mem_cache_store/version"
 
 Gem::Specification.new do |s|
   s.name        = "atomic_mem_cache_store"
-  s.version     = AtomicMemCacheStore::VERSION
+  s.version     = File.read(File.join(File.dirname(__FILE__),'VERSION') ).strip
   s.authors     = ["Renaud (Nel) Morvan"]
   s.email       = ["nel@w3fu.com"]
   s.homepage    = "https://github.com/nel/atomic_mem_cache_store"
@@ -19,6 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency "rspec"
+  s.add_development_dependency "rake"
   s.add_runtime_dependency "activesupport", ">2.1"
   s.add_runtime_dependency "memcache-client"
 end
