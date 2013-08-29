@@ -1,3 +1,5 @@
+require 'iconv'
+
 begin
   require 'spec/autorun'
 rescue LoadError

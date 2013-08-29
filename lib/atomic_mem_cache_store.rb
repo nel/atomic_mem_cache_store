@@ -1,6 +1,6 @@
 require 'active_support'
 
-class AtomicMemCacheStore < ActiveSupport::Cache::MemCacheStore
+class AtomicMemCacheStore < ActiveSupport::Cache::CompressedMemCacheStore
   VERSION = File.read(File.join(File.dirname(__FILE__),'..','VERSION') ).strip
   NEWLY_STORED = "STORED\r\n"
 
