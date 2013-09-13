@@ -1,4 +1,4 @@
-# AtomicMemCacheStore
+# AtomicMemCacheStore [![Build Status](https://travis-ci.org/nel/atomic_mem_cache_store.png?branch=master)](https://travis-ci.org/nel/atomic_mem_cache_store)
 
 ## Why ?
 
