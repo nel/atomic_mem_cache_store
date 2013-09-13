@@ -3,7 +3,7 @@
 ## Why ?
 
 Anyone caching slow content on a website with moderate to heavy traffic will
-sooner of later be a victim of the [thundering herb issue](http://en.wikipedia.org/wiki/Thundering_herd_problem) also called Dog-pile Effect.
+sooner of later be a victim of the [thundering herd issue](http://en.wikipedia.org/wiki/Thundering_herd_problem) also called Dog-pile Effect.
 
 Basically cache invalidation of a high traffic page will trigger several concurrent cache recalculation that could lead to pikes of load and transient slow down of your architecture.
 
@@ -34,6 +34,16 @@ Then use it directly
 Or for Rails add it in your config/environments/<env>.rb
 
 	config.cache_store = :atomic_mem_cache_store, %w( 127.0.0.1 ), { :namespace => "cache:#{Rails.env}" }
+
+If you want to use Dalli instead, do the following:
+
+  cache = AtomicDalliStore.new
+  cache.write('key', 'value', :expires_in => 10)
+  cache.read('key')
+
+Or for Rails add it in your config/environments/<env>.rb
+
+  config.cache_store = :atomic_dalli_store, %w( 127.0.0.1 ), { :namespace => "cache:#{Rails.env}" }
 
 It supports the same parameters as [ActiveSupport::Cache::MemCacheStore](http://apidock.com/rails/ActiveSupport/Cache/MemCacheStore)
 
