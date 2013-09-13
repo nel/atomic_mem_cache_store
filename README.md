@@ -23,27 +23,27 @@ Install the gem
 	
 or add it to your Gemfile
 
-	gem 'atomic_mem_cache_store'
+    gem 'atomic_mem_cache_store'
 
 Then use it directly
-
-	cache = AtomicMemCacheStore.new
-	cache.write('key', 'value', :expires_in => 10)
-	cache.read('key')
+  
+    cache = AtomicMemCacheStore.new
+    cache.write('key', 'value', :expires_in => 10)
+    cache.read('key')
 
 Or for Rails add it in your config/environments/<env>.rb
 
-	config.cache_store = :atomic_mem_cache_store, %w( 127.0.0.1 ), { :namespace => "cache:#{Rails.env}" }
+    config.cache_store = :atomic_mem_cache_store, %w( 127.0.0.1 ), { :namespace => "cache:#{Rails.env}" }
 
 If you want to use Dalli instead, do the following:
 
-  cache = AtomicDalliStore.new
-  cache.write('key', 'value', :expires_in => 10)
-  cache.read('key')
+    cache = AtomicDalliStore.new
+    cache.write('key', 'value', :expires_in => 10)
+    cache.read('key')
 
 Or for Rails add it in your config/environments/<env>.rb
 
-  config.cache_store = :atomic_dalli_store, %w( 127.0.0.1 ), { :namespace => "cache:#{Rails.env}" }
+    config.cache_store = :atomic_dalli_store, %w( 127.0.0.1 ), { :namespace => "cache:#{Rails.env}" }
 
 It supports the same parameters as [ActiveSupport::Cache::MemCacheStore](http://apidock.com/rails/ActiveSupport/Cache/MemCacheStore)
 
