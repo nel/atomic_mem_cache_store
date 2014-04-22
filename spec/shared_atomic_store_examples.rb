@@ -4,8 +4,10 @@ shared_examples "an atomic store" do
     begin
       @store = described_class.new('127.0.0.1', :namespace => "spec-atomic")
       @store.read('test')
-    rescue MemCache::MemCacheError
+    rescue Exception => e
+      puts e
       puts "You need a real memcache server to execute the specs, you can run those test on production server, this won't flush your memcache"
+      raise e
     end
   end
 
@@ -40,7 +42,7 @@ shared_examples "an atomic store" do
       key = prefix_key('expired')
 
       @store.write(key, 1, :expires_in => 1)
-      sleep 2
+      sleep 3
       @store.read(key).should be_nil
       @store.read(key).should be 1
       @store.read(key).should be 1
