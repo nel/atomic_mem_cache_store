@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'active_support'
 require 'atomic_store'
 
